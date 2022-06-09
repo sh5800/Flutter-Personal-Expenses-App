@@ -37,7 +37,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
+        backgroundColor: Color(0xFF0AA1DD),
         centerTitle: true,
         title: Text('Personal Expenses App'),
       ),
@@ -71,7 +71,53 @@ class MyHomePage extends StatelessWidget {
           Column(
             children: transactions.map((tx) {
               return Card(
-                child: Text(tx.title.toString()),
+                child: Container(
+                  color: Color(0xFFDFF6FF),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Colors.blue.shade800, width: 2),
+                              // color: Colors.purple
+                        ),
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          tx.amount.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.purple
+                            ),
+                        ),
+                      ),
+                      Column(
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            tx.title.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                              // color:Colors.grey
+                            ),
+                            ),
+                          Text(
+                            tx.date.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color:Colors.grey
+                            )
+                            ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               );
             }).toList(),
           ),
