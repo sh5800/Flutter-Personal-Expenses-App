@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import './transaction.dart';
 
 void main() => runApp(MyApp());
@@ -42,32 +43,48 @@ class MyHomePage extends StatelessWidget {
         title: Text('Personal Expenses App'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        // mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: double.infinity,
-            height: 50,
+            // height: 50,
             child: Card(
               color: Colors.blue.shade100,
               child: Text(
                 'CHART !',
-                textAlign: TextAlign.center,
+                // textAlign: TextAlign.center,
               ),
               elevation: 5,
             ),
           ),
-          Container(
-            // width: double.infinity,
-            // height: 50,
-            child: Card(
-              color: Colors.red.shade100,
-              child: Text(
-                'LIST of TRX',
-                textAlign: TextAlign.center,
+
+          Card(
+            elevation: 5,
+            // color: Colors.blue.shade50,
+            child: Container(
+              
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  TextField(),
+                  TextField(),
+                  
+                ],
               ),
             ),
           ),
+          // Container(
+          //   // width: double.infinity,
+          //   height: 50,
+          //   child: Card(
+          //     color: Colors.red.shade100,
+          //     child: Text(
+          //       'LIST of TRX',
+          //       textAlign: TextAlign.center,
+          //     ),
+          //   ),
+          // ),
           Column(
             children: transactions.map((tx) {
               return Card(
@@ -81,16 +98,15 @@ class MyHomePage extends StatelessWidget {
                         decoration: BoxDecoration(
                           border:
                               Border.all(color: Colors.blue.shade800, width: 2),
-                              // color: Colors.purple
+                          // color: Colors.purple
                         ),
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          tx.amount.toString(),
+                          'Rs ${tx.amount} /-',
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.purple
-                            ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.purple),
                         ),
                       ),
                       Column(
@@ -104,15 +120,14 @@ class MyHomePage extends StatelessWidget {
                               fontSize: 17,
                               // color:Colors.grey
                             ),
-                            ),
+                          ),
                           Text(
-                            tx.date.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color:Colors.grey
-                            )
-                            ),
+                            DateFormat('dd-MMMM-yyyy  kk:mm').format(tx.date),
+                            // tx.date.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.grey)),
                         ],
                       )
                     ],
