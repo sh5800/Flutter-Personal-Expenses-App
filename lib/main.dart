@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import './transaction.dart';
+// import './widgets/new_transactions.dart';
+// import './widgets/transaction_list.dart';
+// import 'package:intl/intl.dart';
+// import './models/transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,20 +21,13 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
-    Transaction(
-      id: 'Item 1',
-      title: 'Ghost Backpack',
-      amount: 3400,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 'Item 2',
-      title: 'Grocery',
-      amount: 3400,
-      date: DateTime.now(),
-    ),
-  ];
+  
+
+  // String? titleInput;
+  // String? amountInput;
+
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +39,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: double.infinity,
@@ -58,22 +53,7 @@ class MyHomePage extends StatelessWidget {
               elevation: 5,
             ),
           ),
-
-          Card(
-            elevation: 5,
-            // color: Colors.blue.shade50,
-            child: Container(
-              
-              padding: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  TextField(),
-                  TextField(),
-                  
-                ],
-              ),
-            ),
-          ),
+         
           // Container(
           //   // width: double.infinity,
           //   height: 50,
@@ -85,57 +65,7 @@ class MyHomePage extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          Column(
-            children: transactions.map((tx) {
-              return Card(
-                child: Container(
-                  color: Color(0xFFDFF6FF),
-                  child: Row(
-                    children: [
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.blue.shade800, width: 2),
-                          // color: Colors.purple
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'Rs ${tx.amount} /-',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.purple),
-                        ),
-                      ),
-                      Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            tx.title.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                              // color:Colors.grey
-                            ),
-                          ),
-                          Text(
-                            DateFormat('dd-MMMM-yyyy  kk:mm').format(tx.date),
-                            // tx.date.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.grey)),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
+          
         ],
       ),
     );
