@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:personal_expenses_app/widgets/user_transactions.dart';
 
 class NewTransaction extends StatelessWidget {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
+  final Function addTx;
+
+  NewTransaction(this.addTx);
   // const NewTransaction({Key? key}) : super(key: key);
 
   @override
@@ -13,7 +17,7 @@ class NewTransaction extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
@@ -32,8 +36,10 @@ class NewTransaction extends StatelessWidget {
                 onPressed: () {
                   // print(titleInput);
                   // print(amountInput);
-                  print(titleController.text);
-                  print(amountController.text);
+                  // print(titleController.text);
+                  // print(amountController.text);
+                  // UserTransactions();
+                  addTx(titleController.text, double.parse(amountController.text));
                 },
                 child: Text('Add Transaction'),
                 style: TextButton.styleFrom(

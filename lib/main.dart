@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import './widgets/user_transactions.dart';
+import './widgets/new_transactions.dart';
+import './widgets/transaction_list.dart';
 // import './widgets/new_transactions.dart';
 // import './widgets/transaction_list.dart';
 // import 'package:intl/intl.dart';
@@ -37,36 +40,41 @@ class MyHomePage extends StatelessWidget {
         centerTitle: true,
         title: Text('Personal Expenses App'),
       ),
-      body: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: double.infinity,
-            // height: 50,
-            child: Card(
-              color: Colors.blue.shade100,
-              child: Text(
-                'CHART !',
-                // textAlign: TextAlign.center,
+      body: SingleChildScrollView(
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              // height: 50,
+              child: Card(
+                color: Colors.blue.shade100,
+                child: Text(
+                  'CHART !',
+                  // textAlign: TextAlign.center,
+                ),
+                elevation: 5,
               ),
-              elevation: 5,
             ),
-          ),
-         
-          // Container(
-          //   // width: double.infinity,
-          //   height: 50,
-          //   child: Card(
-          //     color: Colors.red.shade100,
-          //     child: Text(
-          //       'LIST of TRX',
-          //       textAlign: TextAlign.center,
-          //     ),
-          //   ),
-          // ),
-          
-        ],
+            // NewTransaction(),
+            // TransactionList()
+            UserTransactions()
+           
+            // Container(
+            //   // width: double.infinity,
+            //   height: 50,
+            //   child: Card(
+            //     color: Colors.red.shade100,
+            //     child: Text(
+            //       'LIST of TRX',
+            //       textAlign: TextAlign.center,
+            //     ),
+            //   ),
+            // ),
+            
+          ],
+        ),
       ),
     );
   }
