@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expenses_app/widgets/user_transactions.dart';
+// import 'package:personal_expenses_app/widgets/user_transactions.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class NewTransaction extends StatefulWidget {
   final Function addTx;
 
   NewTransaction(this.addTx);
-  // const NewTransaction({Key? key}) : super(key: key);
 
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
+
+  final dateController = TextEditingController();
+
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      return;
+    }
+
+    widget.addTx(enteredTitle, enteredAmount);
+
+    Navigator.of(context).pop();
+  }
+
+  // const NewTransaction({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,6 +44,7 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
               controller: titleController,
+              onSubmitted: (_) => submitData(),
               // onChanged: (val) {
               //   titleInput = val;
               // },
@@ -29,18 +52,20 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitData(),
               // onChanged: (val) => amountInput = val,
             ),
+            // TextField(
+            //   decoration: InputDecoration(labelText: 'Date'),
+            //   controller: dateController,
+            //   keyboardType: TextInputType.datetime,
+            //   onSubmitted: (_) => submitData,
+            //   // onChanged: (val) => amountInput = val,
+            // ),
             SizedBox(height: 20),
             TextButton(
-                onPressed: () {
-                  // print(titleInput);
-                  // print(amountInput);
-                  // print(titleController.text);
-                  // print(amountController.text);
-                  // UserTransactions();
-                  addTx(titleController.text, double.parse(amountController.text));
-                },
+                onPressed: submitData,
                 child: Text('Add Transaction'),
                 style: TextButton.styleFrom(
                   primary: Colors.purple,

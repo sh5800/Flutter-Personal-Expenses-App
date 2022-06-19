@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses_app/widgets/user_transactions.dart';
+// import 'package:personal_expenses_app/widgets/user_transactions.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -23,17 +23,21 @@ class TransactionList extends StatelessWidget {
                   children: [
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue.shade800, width: 2),
+                      decoration: BoxDecoration
+                      (
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor, 
+                          width: 2
+                        ),
                         // color: Colors.purple
                       ),
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        'Rs ${transactions![index].amount} /-',
+                        'Rs ${transactions![index].amount!.toStringAsFixed(2)} /-',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
-                            color: Colors.purple),
+                            color: Theme.of(context).primaryColor),
                       ),
                     ),
                     Column(
@@ -42,11 +46,7 @@ class TransactionList extends StatelessWidget {
                       children: [
                         Text(
                           transactions![index].title.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            // color:Colors.grey
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium
                         ),
                         Text(
                             DateFormat('dd-MMMM-yyyy  kk:mm')

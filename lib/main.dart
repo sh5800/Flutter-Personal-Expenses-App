@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import './widgets/user_transactions.dart';
+// import './widgets/user_transactions.dart';
 import './widgets/new_transactions.dart';
 import './widgets/transaction_list.dart';
+import './models/transaction.dart';
 // import './widgets/new_transactions.dart';
 // import './widgets/transaction_list.dart';
 // import 'package:intl/intl.dart';
@@ -14,7 +17,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Personal Expenses App',
+      title: 'Personal Expenses',
+      theme: ThemeData(
+          primarySwatch: Colors.purple,
+          accentColor: Color(0xFF92B4EC),
+          fontFamily: 'OpenSans',
+          textTheme: ThemeData.light().textTheme.copyWith(
+            titleMedium: TextStyle(fontFamily: 'Ubuntu',
+            // fontWeight: FontWeight.bold,
+            fontSize: 18
+
+          )
+          ),
+          appBarTheme: AppBarTheme(
+            titleTextStyle: TextStyle(
+              fontFamily: 'Ubuntu',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white
+            )
+          )
+          ),
+          
       // theme: ThemeData(
       //   primaryColor: Color(0xFF79DAE8)
       // ),
@@ -23,22 +47,75 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
+class _MyHomePageState extends State<MyHomePage> {
   // String? titleInput;
-  // String? amountInput;
+  // final titleController = TextEditingController();
+  // final amountController = TextEditingController();
 
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: 'Item 1',
+      title: 'Ghost Backpack',
+      amount: 3400,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'Item 2',
+      title: 'Grocery',
+      amount: 3400,
+      date: DateTime.now(),
+    ),
+  ];
+
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+        title: txTitle,
+        amount: txAmount,
+        date: DateTime.now(),
+        id: DateTime.now().toString());
+
+    setState(() {
+      _userTransactions.add(newTx);
+    });
+  }
+
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return GestureDetector(
+            onTap: () {},
+            child: NewTransaction(_addNewTransaction),
+            behavior: HitTestBehavior.opaque,
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0AA1DD),
+        // backgroundColor: Color(0xFF92B4EC),
         centerTitle: true,
-        title: Text('Personal Expenses App'),
+        title: Text(
+          'Personal Expenses',
+        ),
+        
+        actions: [
+          IconButton(
+            onPressed: () => _startAddNewTransaction(context),
+            icon: Icon(Icons.add),
+            color: Color(0xFFF94C66),
+            // highlightColor: Color(0xFF92B4EC),
+            // focusColor: Color(0xFF92B4EC),
+            hoverColor: Color(0xFF92B4EC),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -58,9 +135,11 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
             // NewTransaction(),
-            // TransactionList()
-            UserTransactions()
-           
+            TransactionList(
+              transactions: _userTransactions,
+            )
+            // UserTransactions()
+
             // Container(
             //   // width: double.infinity,
             //   height: 50,
@@ -72,9 +151,13 @@ class MyHomePage extends StatelessWidget {
             //     ),
             //   ),
             // ),
-            
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _startAddNewTransaction(context),
+        child: Icon(Icons.add),
       ),
     );
   }
