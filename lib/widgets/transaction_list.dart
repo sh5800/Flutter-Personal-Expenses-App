@@ -5,69 +5,64 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction>? transactions;
-
-  TransactionList({this.transactions});
+  final Function deleteTx;
+  TransactionList({this.transactions,  required this.deleteTx});
   // const TransactionList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
-     
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Card(
-              child: Container(
-                color: Color(0xFFDFF6FF),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      decoration: BoxDecoration
-                      (
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor, 
-                          width: 2
+      height: 350,
+      child: transactions!.isEmpty
+          ? Column(
+              children: [
+                Text(
+                  'No transactions added yet!',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    height: 200,
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.cover,
+                    )),
+              ],
+            )
+          : ListView.builder(
+              itemBuilder: (ctx, index) {
+                return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 27.5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text('Rs ${transactions![index].amount}'),
                         ),
-                        // color: Colors.purple
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        'Rs ${transactions![index].amount!.toStringAsFixed(2)} /-',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Theme.of(context).primaryColor),
                       ),
                     ),
-                    Column(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          transactions![index].title.toString(),
-                          style: Theme.of(context).textTheme.titleMedium
-                        ),
-                        Text(
-                            DateFormat('dd-MMMM-yyyy  kk:mm')
-                                .format(DateTime.now()),
-                            // tx.date.toString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Colors.grey)),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            );
-          }
-          ,
-          itemCount: transactions!.length,
-          // children: transactions!.map((tx) {
-           
-        ),
+                    title: Text(
+                      transactions![index].title.toString(),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    subtitle: Text(DateFormat.yMMMd()
+                        .format(transactions![index].date as DateTime)),
+                    trailing: IconButton(
+                      onPressed: () => deleteTx(transactions![index].id),
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                    ),
+                  ),
+                );
+              },
+              itemCount: transactions!.length,
+              // children: transactions!.map((tx) {
+            ),
     );
   }
 }

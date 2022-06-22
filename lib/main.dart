@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import './widgets/chart.dart';
 // import './widgets/user_transactions.dart';
 import './widgets/new_transactions.dart';
 import './widgets/transaction_list.dart';
@@ -19,26 +20,21 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Personal Expenses',
       theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Color(0xFF92B4EC),
+          primarySwatch: Colors.deepPurple,
+          accentColor: Color(0xFF0AA1DD),
           fontFamily: 'OpenSans',
           textTheme: ThemeData.light().textTheme.copyWith(
-            titleMedium: TextStyle(fontFamily: 'Ubuntu',
-            // fontWeight: FontWeight.bold,
-            fontSize: 18
-
-          )
-          ),
+              titleMedium: TextStyle(
+                  fontFamily: 'Ubuntu',
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 18)),
           appBarTheme: AppBarTheme(
-            titleTextStyle: TextStyle(
-              fontFamily: 'Ubuntu',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
-            )
-          )
-          ),
-          
+              titleTextStyle: TextStyle(
+                  fontFamily: 'Ubuntu',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white))),
+
       // theme: ThemeData(
       //   primaryColor: Color(0xFF79DAE8)
       // ),
@@ -58,29 +54,46 @@ class _MyHomePageState extends State<MyHomePage> {
   // final amountController = TextEditingController();
 
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 'Item 1',
-      title: 'Ghost Backpack',
-      amount: 3400,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 'Item 2',
-      title: 'Grocery',
-      amount: 3400,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 'Item 1',
+    //   title: 'Ghost Backpack',
+    //   amount: 3400,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 'Item 2',
+    //   title: 'Grocery',
+    //   amount: 3400,
+    //   date: DateTime.now(),
+    // ),
   ];
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  List<Transaction>? get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date!.isAfter(
+        DateTime.now().subtract(Duration(days: 7)),
+      );
+    }).toList();
+  }
+
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now(),
+        date: chosenDate,
         id: DateTime.now().toString());
 
     setState(() {
       _userTransactions.add(newTx);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) {
+        return tx.id == id;
+      });
     });
   }
 
@@ -105,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           'Personal Expenses',
         ),
-        
+
         actions: [
           IconButton(
             onPressed: () => _startAddNewTransaction(context),
@@ -113,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Color(0xFFF94C66),
             // highlightColor: Color(0xFF92B4EC),
             // focusColor: Color(0xFF92B4EC),
-            hoverColor: Color(0xFF92B4EC),
+            hoverColor: Color(0xFF0AA1DD),
           )
         ],
       ),
@@ -122,21 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.start,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              // height: 50,
-              child: Card(
-                color: Colors.blue.shade100,
-                child: Text(
-                  'CHART !',
-                  // textAlign: TextAlign.center,
-                ),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransactions!),
             // NewTransaction(),
             TransactionList(
-              transactions: _userTransactions,
+               transactions:_userTransactions,
+              deleteTx:_deleteTransaction
             )
             // UserTransactions()
 
